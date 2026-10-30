@@ -1,0 +1,21 @@
+name: Keep FinSight Alive
+
+on:
+  schedule:
+    - cron: "0 */8 * * *"
+  workflow_dispatch:
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Visit FinSight website
+        run: |
+          curl -L --fail --silent --show-error \
+          --max-time 60 \
+          https://finsight-mainsite.streamlit.app/ \
+          -o /dev/null
+
+      - name: Report status
+        run: echo "FinSight website checked successfully."
