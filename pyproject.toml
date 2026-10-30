@@ -14,6 +14,8 @@ dependencies = [
     "pydantic>=2.5,<3.0",
     "PyYAML>=6.0,<7.0",
     "yfinance>=0.2.50,<2.0",
+    "streamlit>=1.40,<2.0",
+    "plotly>=5.24,<7.0",
 ]
 
 [project.optional-dependencies]
@@ -22,10 +24,9 @@ dev = [
     "pytest-cov>=5.0,<7.0",
     "ruff>=0.9,<1.0",
 ]
-dashboard = [
-    "streamlit>=1.40,<2.0",
-    "plotly>=5.24,<7.0",
-]
+
+[tool.poetry]
+package-mode = false
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -41,6 +42,3 @@ target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP"]
-
-[tool.poetry]
-package-mode = false
