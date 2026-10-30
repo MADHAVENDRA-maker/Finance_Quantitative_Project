@@ -27,11 +27,55 @@ STRATEGY_FILES = {
     "Maximum Sharpe": RUNS_DIR / "backtest_maximum_sharpe.csv",
 }
 
+def hide_streamlit_chrome():
+    hide_chrome_style = """
+        <style>
+            /* Hide the top toolbar */
+            [data-testid="stToolbar"] {
+                visibility: hidden;
+                display: none;
+            }
+
+            /* Hide the status widget */
+            [data-testid="stStatusWidget"] {
+                visibility: hidden;
+                display: none;
+            }
+
+            /* Hide the Streamlit header */
+            header {
+                visibility: hidden;
+                display: none;
+            }
+
+            /* Hide the Main Menu */
+            #MainMenu {
+                visibility: hidden;
+                display: none;
+            }
+
+            /* Hide the footer */
+            footer {
+                visibility: hidden;
+                display: none;
+            }
+
+            /* Hide the Deploy button, if present */
+            .stDeployButton {
+                display: none;
+            }
+        </style>
+    """
+
+    st.markdown(hide_chrome_style, unsafe_allow_html=True)
+
 st.set_page_config(
     page_title="Quantitative Finance Research",
     layout="wide",
     initial_sidebar_state="expanded",
 )
+
+hide_streamlit_chrome()
 
 st.markdown(
     """
