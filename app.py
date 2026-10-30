@@ -46,46 +46,6 @@ st.set_page_config(
 )
 
 
-def hide_streamlit_chrome():
-    hide_chrome_style = """
-        <style>
-            /* Hide the toolbar */
-            [data-testid="stToolbar"] {
-                visibility: hidden;
-                display: none;
-            }
-
-            /* Hide the status widget */
-            [data-testid="stStatusWidget"] {
-                visibility: hidden;
-                display: none;
-            }
-
-            /* Hide the main menu */
-            #MainMenu {
-                visibility: hidden;
-                display: none;
-            }
-
-            /* Hide the footer */
-            footer {
-                visibility: hidden;
-                display: none;
-            }
-
-            /* Hide the deploy button */
-            .stDeployButton {
-                display: none;
-            }
-        </style>
-    """
-
-    st.markdown(hide_chrome_style, unsafe_allow_html=True)
-
-
-hide_streamlit_chrome()
-
-
 st.markdown(
     """
     <style>
