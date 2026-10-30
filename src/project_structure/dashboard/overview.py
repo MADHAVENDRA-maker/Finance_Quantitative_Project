@@ -68,7 +68,7 @@ def render_overview_page(project_root):
                 - Allocate weights across selected assets.
                 - Apply predefined or user-defined market shocks.
                 - Analyse estimated portfolio losses and asset-level
-                  contributions.
+                  contributions under various scenarios.
                 """
             )
 
