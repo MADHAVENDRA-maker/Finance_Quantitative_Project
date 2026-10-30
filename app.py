@@ -30,7 +30,7 @@ STRATEGY_FILES = {
 def hide_streamlit_chrome():
     hide_chrome_style = """
         <style>
-            /* Hide the top toolbar */
+            /* Hide the toolbar */
             [data-testid="stToolbar"] {
                 visibility: hidden;
                 display: none;
@@ -42,13 +42,7 @@ def hide_streamlit_chrome():
                 display: none;
             }
 
-            /* Hide the Streamlit header */
-            header {
-                visibility: hidden;
-                display: none;
-            }
-
-            /* Hide the Main Menu */
+            /* Hide the main menu */
             #MainMenu {
                 visibility: hidden;
                 display: none;
@@ -60,10 +54,11 @@ def hide_streamlit_chrome():
                 display: none;
             }
 
-            /* Hide the Deploy button, if present */
+            /* Hide the deploy button */
             .stDeployButton {
                 display: none;
             }
+
         </style>
     """
 

@@ -48,7 +48,11 @@ desktop.ini
 
 # Local data and experiment outputs
 data/raw/*
+# Ignore processed data by default
 data/processed/*
+
+# Track the ETF price data required by the deployed application
+!data/processed/*.csv
 data/runs/*
 
 # Keep directory placeholders
