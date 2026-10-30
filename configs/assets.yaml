@@ -1,0 +1,50 @@
+assets:
+  - ticker: SPY
+    name: SPDR S&P 500 ETF Trust
+    asset_class: US Equity
+    description: Tracks large-cap US equities represented by the S&P 500.
+
+  - ticker: QQQ
+    name: Invesco QQQ Trust
+    asset_class: US Equity
+    description: Provides exposure to large non-financial Nasdaq-100 companies.
+
+  - ticker: IWM
+    name: iShares Russell 2000 ETF
+    asset_class: US Equity
+    description: Tracks small-cap US equities.
+
+  - ticker: EFA
+    name: iShares MSCI EAFE ETF
+    asset_class: International Equity
+    description: Provides developed-market equity exposure outside the US and Canada.
+
+  - ticker: EEM
+    name: iShares MSCI Emerging Markets ETF
+    asset_class: Emerging Markets Equity
+    description: Provides exposure to emerging-market equities.
+
+  - ticker: TLT
+    name: iShares 20+ Year Treasury Bond ETF
+    asset_class: Long-Term US Treasury Bonds
+    description: Tracks long-duration US Treasury bonds and is sensitive to interest-rate changes.
+
+  - ticker: IEF
+    name: iShares 7-10 Year Treasury Bond ETF
+    asset_class: Intermediate-Term US Treasury Bonds
+    description: Provides intermediate-duration US Treasury exposure.
+
+  - ticker: GLD
+    name: SPDR Gold Shares
+    asset_class: Gold
+    description: Seeks to reflect the price of gold bullion, less expenses.
+
+  - ticker: VNQ
+    name: Vanguard Real Estate ETF
+    asset_class: US Real Estate
+    description: Provides exposure to US real estate investment trusts.
+
+  - ticker: DBC
+    name: Invesco DB Commodity Index Tracking Fund
+    asset_class: Commodities
+    description: Provides broad commodity-futures exposure.
