@@ -1,31 +1,50 @@
 import sys
 from pathlib import Path
 
-import streamlit as st
-
-# Add src to Python's import path
-PROJECT_ROOT = Path(__file__).resolve().parent
-SRC_PATH = PROJECT_ROOT / "src"
-
-if str(SRC_PATH) not in sys.path:
-    sys.path.insert(0, str(SRC_PATH))
-from pathlib import Path
 import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from project_structure.backtesting.custom_portfolio_dashboard import (render_custom_portfolio_page)
-from project_structure.dashboard.overview import render_overview_page
-from project_structure.stress_testing.dashboard import (render_stress_testing_page)
+import streamlit as st
+
+# ---------------------------------------------------------
+# Project paths and imports
+# ---------------------------------------------------------
 
 PROJECT_ROOT = Path(__file__).resolve().parent
+SRC_PATH = PROJECT_ROOT / "src"
 RUNS_DIR = PROJECT_ROOT / "data" / "runs"
+
+# Add src to Python's import path
+if str(SRC_PATH) not in sys.path:
+    sys.path.insert(0, str(SRC_PATH))
+
+from project_structure.backtesting.custom_portfolio_dashboard import (
+    render_custom_portfolio_page,
+)
+from project_structure.dashboard.overview import render_overview_page
+from project_structure.stress_testing.dashboard import (
+    render_stress_testing_page,
+)
+
 
 STRATEGY_FILES = {
     "Equal Weight": RUNS_DIR / "backtest_equal_weight.csv",
     "Minimum Variance": RUNS_DIR / "backtest_minimum_variance.csv",
     "Maximum Sharpe": RUNS_DIR / "backtest_maximum_sharpe.csv",
 }
+
+
+# ---------------------------------------------------------
+# Streamlit configuration
+# ---------------------------------------------------------
+
+st.set_page_config(
+    page_title="Quantitative Finance Research",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+
 
 def hide_streamlit_chrome():
     hide_chrome_style = """
@@ -58,19 +77,14 @@ def hide_streamlit_chrome():
             .stDeployButton {
                 display: none;
             }
-
         </style>
     """
 
     st.markdown(hide_chrome_style, unsafe_allow_html=True)
 
-st.set_page_config(
-    page_title="Quantitative Finance Research",
-    layout="wide",
-    initial_sidebar_state="expanded",
-)
 
 hide_streamlit_chrome()
+
 
 st.markdown(
     """
@@ -79,6 +93,7 @@ st.markdown(
         padding-top: 1.6rem;
         padding-bottom: 2rem;
     }
+
     div[data-testid="stMetric"] {
         background: rgba(128, 128, 128, 0.07);
         border: 1px solid rgba(128, 128, 128, 0.15);
@@ -226,25 +241,38 @@ def cumulative_return_series(df):
 
     cumulative_col = find_column(
         data,
-        ["cumulative_return", "cumulative_returns",
-         "portfolio_cumulative_return", "wealth"],
+        [
+            "cumulative_return",
+            "cumulative_returns",
+            "portfolio_cumulative_return",
+            "wealth",
+        ],
     )
 
     return_col = find_column(
         data,
-        ["net_return", "portfolio_return", "strategy_return",
-         "daily_return", "returns"],
+        [
+            "net_return",
+            "portfolio_return",
+            "strategy_return",
+            "daily_return",
+            "returns",
+        ],
     )
 
     if date_col is None:
         return None, None
 
     if cumulative_col is not None:
-        values = pd.to_numeric(data[cumulative_col], errors="coerce")
+        values = pd.to_numeric(
+            data[cumulative_col], errors="coerce"
+        )
         return data[date_col], values
 
     if return_col is not None:
-        returns = pd.to_numeric(data[return_col], errors="coerce")
+        returns = pd.to_numeric(
+            data[return_col], errors="coerce"
+        )
         values = (1 + returns.fillna(0)).cumprod() - 1
         return data[date_col], values
 
@@ -317,6 +345,7 @@ def comparison_bar_chart(df, metric, title, percent=False):
         texttemplate="%{y:.2%}" if percent else "%{y:.3f}",
         textposition="outside",
     )
+
     fig.update_layout(
         showlegend=False,
         height=360,
@@ -327,45 +356,46 @@ def comparison_bar_chart(df, metric, title, percent=False):
 
 
 # ---------------------------------------------------------
-# Sidebar
+# Page rendering functions
 # ---------------------------------------------------------
 
-st.sidebar.title("Research Platform")
-st.sidebar.caption("Quantitative Finance Analytics")
-
-pages = [
-    "Overview",
-    "Custom Portfolio Builder",
-    "Portfolio Stress Testing",
-]
-
-page = st.sidebar.radio(
-    "Navigation",
-    pages,
-)
-
-st.sidebar.divider()
-st.sidebar.caption("Historical research results — not investment advice.")
-
-
-# ---------------------------------------------------------
-# Overview
-# ---------------------------------------------------------
-
-if page == "Overview":
+def overview_page():
     render_overview_page(PROJECT_ROOT)
 
-# ---------------------------------------------------------
-# Custom portfolio builder
-# ---------------------------------------------------------
 
-elif page == "Custom Portfolio Builder":
+def custom_portfolio_page():
     render_custom_portfolio_page(PROJECT_ROOT)
 
 
+def stress_testing_page():
+    render_stress_testing_page(PROJECT_ROOT)
+
+
 # ---------------------------------------------------------
-# Custom portfolio builder
+# Top navigation
 # ---------------------------------------------------------
 
-elif page == "Portfolio Stress Testing":
-    render_stress_testing_page(PROJECT_ROOT)
+pages = [
+    st.Page(
+        overview_page,
+        title="Overview",
+        default=True,
+    ),
+    st.Page(
+        custom_portfolio_page,
+        title="Custom Portfolio Builder",
+    ),
+    st.Page(
+        stress_testing_page,
+        title="Portfolio Stress Testing",
+    ),
+]
+
+# Display navigation at the top of the application
+selected_page = st.navigation(
+    pages,
+    position="top",
+)
+
+# Run the selected page
+selected_page.run()
