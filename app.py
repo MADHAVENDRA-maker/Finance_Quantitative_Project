@@ -1,9 +1,19 @@
+import sys
+from pathlib import Path
+
+import streamlit as st
+
+# Add src to Python's import path
+PROJECT_ROOT = Path(__file__).resolve().parent
+SRC_PATH = PROJECT_ROOT / "src"
+
+if str(SRC_PATH) not in sys.path:
+    sys.path.insert(0, str(SRC_PATH))
 from pathlib import Path
 import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-import streamlit as st
 from project_structure.backtesting.custom_portfolio_dashboard import (render_custom_portfolio_page)
 from project_structure.dashboard.overview import render_overview_page
 from project_structure.stress_testing.dashboard import (render_stress_testing_page)
