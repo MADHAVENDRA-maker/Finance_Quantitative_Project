@@ -13,7 +13,7 @@ DEFAULT_PROCESSED_DATA_DIR = PROJECT_ROOT / "data" / "processed"
 
 def run_data_pipeline(
     tickers: Sequence[str] | None = None,
-    start: str | date = "2020-01-01",
+    start: str | date = "2010-01-01",
     end: str | date | None = None,
     raw_output_dir: str | Path | None = None,
     processed_output_dir: str | Path = DEFAULT_PROCESSED_DATA_DIR,
