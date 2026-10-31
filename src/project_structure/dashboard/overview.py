@@ -163,7 +163,7 @@ def render_overview_page(project_root):
 
     st.divider()
 
-    st.subheader("Author - Madhavendra Gautam")
+    st.markdown("#### Author - Madhavendra Gautam")
 
     st.caption(
         """
