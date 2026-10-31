@@ -21,7 +21,7 @@ ASSET_NAMES = {
 
 
 @st.cache_data(show_spinner=False)
-def _load_adjusted_prices(csv_path: str) -> pd.Series:
+def _load_adjusted_prices(csv_path: str,file_mtime_ns: int,file_size: int,) -> pd.Series:
     """Load adjusted closing prices from one processed asset CSV."""
     path = Path(csv_path)
 
@@ -97,7 +97,19 @@ def _load_universe_returns(
 
     for ticker in tickers:
         path = processed_dir / f"{ticker}.csv"
-        prices[ticker] = _load_adjusted_prices(str(path))
+
+        if not path.exists():
+            raise FileNotFoundError(
+                f"Market-data file not found: {path.name}"
+            )
+
+        file_stats = path.stat()
+
+        prices[ticker] = _load_adjusted_prices(
+            str(path),
+            file_stats.st_mtime_ns,
+            file_stats.st_size,
+        )
 
     price_frame = pd.concat(prices, axis=1, join="inner")
     price_frame = price_frame.sort_index().dropna(how="any")
@@ -229,12 +241,14 @@ def render_custom_portfolio_page(project_root: Path) -> None:
 
         if default_start > latest_date:
             default_start = earliest_date
+        min_date = universe_returns.index.min().date()
+        max_date = universe_returns.index.max().date()
 
         selected_dates = st.date_input(
             "Study window",
             value=(default_start, latest_date),
-            min_value=earliest_date,
-            max_value=latest_date,
+            min_value=min_date,
+            max_value=max_date,
             help=(
                 "The backtest evaluates returns within this window. "
                 "Historical observations before the start date are used "
