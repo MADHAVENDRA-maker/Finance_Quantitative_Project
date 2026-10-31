@@ -7,7 +7,7 @@ def render_overview_page(project_root):
     # PAGE HEADER
     # ---------------------------------------------------------
 
-    st.title("Quantitative Finance Research Platform")
+    st.title("FinSight - Quantitative Finance Research Platform")
 
     st.markdown(
         """
