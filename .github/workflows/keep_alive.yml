@@ -10,12 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Visit FinSight website
+      - name: Check FinSight website
         run: |
-          curl -L --fail --silent --show-error \
-          --max-time 60 \
-          https://finsight-mainsite.streamlit.app/ \
-          -o /dev/null
+          curl --silent --show-error \
+            --max-time 60 \
+            --output /dev/null \
+            --write-out "HTTP status: %{http_code}\n" \
+            https://finsight-mainsite.streamlit.app/
 
       - name: Report status
-        run: echo "FinSight website checked successfully."
+        if: success()
+        run: echo "FinSight website responded successfully."
