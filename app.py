@@ -40,8 +40,9 @@ STRATEGY_FILES = {
 # ---------------------------------------------------------
 
 st.set_page_config(
-    page_title="Quantitative Finance Research",
+    page_title="FinSight",
     layout="wide",
+    icon="website_logo.png"
     initial_sidebar_state="expanded",
 )
 
