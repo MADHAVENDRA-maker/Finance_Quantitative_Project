@@ -157,6 +157,9 @@ def render_overview_page(project_root):
         "to explore the potential impact of adverse market conditions."
     )
 
+    st.divider()
+    st.caption("""Author - Madhavendra Gautam""")
+
     # ---------------------------------------------------------
     # DISCLAIMER
     # ---------------------------------------------------------
