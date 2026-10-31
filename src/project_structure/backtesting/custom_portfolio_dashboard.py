@@ -234,25 +234,43 @@ def render_custom_portfolio_page(project_root: Path) -> None:
             ),
         )
 
-        default_start_position = min(252, len(universe_returns) - 1)
+        # The backtest needs `lookback` complete return observations before
+        # the selected study start. Set the earliest selectable start date
+        # accordingly, rather than allowing dates that cannot be backtested.
+        lookback_days = int(lookback)
+        min_start_position = min(lookback_days, len(universe_returns) - 1)
+        min_date = universe_returns.index[min_start_position].date()
+        max_date = latest_date
+
+        # Keep the default window at approximately one year, or at least as
+        # far forward as required by the selected lookback.
+        default_start_position = min(
+            max(252, lookback_days),
+            len(universe_returns) - 1,
+        )
         default_start = universe_returns.index[
             default_start_position
         ].date()
 
-        if default_start > latest_date:
-            default_start = earliest_date
-        min_date = universe_returns.index.min().date()
-        max_date = universe_returns.index.max().date()
+        # A data-range-specific key prevents Streamlit from reusing a
+        # previously selected date that falls outside the current data range.
+        study_window_key = (
+            f"custom_portfolio_study_window_"
+            f"{min_date.isoformat()}_{max_date.isoformat()}"
+        )
 
         selected_dates = st.date_input(
             "Study window",
-            value=(default_start, latest_date),
+            value=(default_start, max_date),
             min_value=min_date,
             max_value=max_date,
+            key=study_window_key,
             help=(
                 "The backtest evaluates returns within this window. "
-                "Historical observations before the start date are used "
-                "to satisfy the lookback requirement."
+                f"At least {lookback_days} historical return observations "
+                "must be available before the start date. The end date "
+                "cannot exceed the latest date in the selected assets' "
+                "common market-data history."
             ),
         )
 
